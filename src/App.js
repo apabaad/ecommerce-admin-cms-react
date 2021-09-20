@@ -1,13 +1,23 @@
 import './App.css';
 import { Button } from 'react-bootstrap';
+import { Registration } from './pages/admin-registration/Registration';
+import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
+import { Login } from './pages/login/Login.js';
 
 function App() {
   return (
     <div>
-      Ecommerce
-      <Button variant="primary">
-        <i class="fas fa-users"></i> User
-      </Button>
+      <Router>
+        <Switch>
+          <Route path="/registration">
+            <Registration />
+          </Route>
+
+          <Route exact path="/">
+            <Login />
+          </Route>
+        </Switch>
+      </Router>
     </div>
   );
 }

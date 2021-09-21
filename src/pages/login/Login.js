@@ -1,5 +1,10 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { pendingResp } from '../admin-user/userSlice';
 
 export const Login = () => {
-  return <div>hello</div>;
+  // const dispatch = const dispatch = useDispatch()
+  // useEffect(() => {
+  //   dispatch(pendingResp());
+  // }, []);
+  return <div></div>;
 };

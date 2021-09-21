@@ -12,21 +12,34 @@ import {
   FormControl,
 } from 'react-bootstrap';
 
+import { useDispatch } from 'react-redux';
+import { createUser } from '../../pages/admin-user/userAction';
+import { useSelector } from 'react-redux';
+
 const initialState = {
   fname: '',
   lname: '',
   dob: '',
   email: '',
   password: '',
+  confirmPassword: '',
   phone: '',
   address: '',
   gender: '',
 };
+
 export const AdminRegForm = () => {
+  const dispatch = useDispatch();
   const [newUser, setNewUser] = useState(initialState);
+  const { isPending, userResp } = useSelector((state) => state.user);
+  const [passError, setPassError] = useState('');
 
   const handleOnChange = (e) => {
     const { name, value } = e.target;
+
+    if (passError && name == 'confirmPassword') {
+      setPassError('');
+    }
     setNewUser({
       ...newUser,
       [name]: value,
@@ -35,13 +48,28 @@ export const AdminRegForm = () => {
 
   const handleOnSubmit = (e) => {
     e.preventDefault();
-    console.log(newUser);
+
+    const { password } = newUser;
+    const { confirmPassword, ...userInfo } = newUser;
+
+    if (password !== confirmPassword) {
+      return setPassError('not matched');
+    }
+
+    dispatch(createUser(userInfo));
   };
 
   return (
     <div>
       <Card className="p-5 mt-4" style={{ width: '600px' }}>
         <h1>Admin User Registration</h1>
+
+        {isPending && <Spinner variant="primary" animation="border" />}
+        {userResp?.message && (
+          <Alert variant={userResp.status === 'success' ? 'success' : 'danger'}>
+            {userResp.message}
+          </Alert>
+        )}
         <hr />
         <Form onSubmit={handleOnSubmit}>
           <Form.Group as={Row} className="mb-3 mt-3">
@@ -82,13 +110,14 @@ export const AdminRegForm = () => {
             <Col sm="9">
               <Form.Control
                 type="password"
-                name="c_password"
+                name="confirmPassword"
                 placeholder="Confirm Password"
                 required
                 onChange={handleOnChange}
               />
             </Col>
           </Form.Group>
+          {passError && <Alert variant="danger">{passError}</Alert>}
 
           <Form.Group as={Row} className="mb-3 mt-3">
             <Form.Label column sm="3">

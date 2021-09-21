@@ -26,10 +26,11 @@ const EmailVerification = () => {
       <h2>Validation email</h2>
       {isPending && <Spinner variant="primary" animation="border" />}
       {emailVerificationResp.message && (
-        <Alert>
-          {' '}
-          variant=
-          {emailVerificationResp.status === 'success' ? 'success' : 'danger'}
+        <Alert
+          variant={
+            emailVerificationResp.status === 'success' ? 'success' : 'danger'
+          }
+        >
           {emailVerificationResp.message}
         </Alert>
       )}

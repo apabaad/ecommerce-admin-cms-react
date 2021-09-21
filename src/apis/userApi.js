@@ -21,6 +21,7 @@ export const createNewUser = async (userInfo) => {
 };
 
 export const verifyNewUserEmail = async (userInfo) => {
+  console.log(userAPI, 'user api');
   try {
     const { data } = await axios.post(
       userAPI + '/email-verification',

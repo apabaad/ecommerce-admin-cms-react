@@ -1,10 +1,12 @@
 import React, { useEffect } from 'react';
-import { pendingResp } from '../admin-user/userSlice';
+import { LoginForm } from '../../components/login-form/LoginForm';
 
-export const Login = () => {
-  // const dispatch = const dispatch = useDispatch()
-  // useEffect(() => {
-  //   dispatch(pendingResp());
-  // }, []);
-  return <div></div>;
+const Login = () => {
+  return (
+    <div className="d-flex justify-content-center mt-5">
+      <LoginForm />
+    </div>
+  );
 };
+
+export default Login;

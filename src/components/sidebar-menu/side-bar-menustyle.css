@@ -1,0 +1,14 @@
+.sidebar-top {
+  font-size: 3rem;
+  color: antiquewhite;
+}
+
+ul li {
+  list-style: none;
+}
+
+.menu-item {
+  text-decoration: none;
+  color: antiquewhite;
+  font-weight: bold;
+}

@@ -61,7 +61,7 @@ export const AdminRegForm = () => {
 
   return (
     <div>
-      <Card className="p-5 mt-4" style={{ width: '600px' }}>
+      <Card className="p-5 mt-4">
         <h1>Admin User Registration</h1>
 
         {isPending && <Spinner variant="primary" animation="border" />}

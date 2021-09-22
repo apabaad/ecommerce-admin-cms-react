@@ -1,0 +1,18 @@
+/* main page layout */
+
+.admin-layout .main {
+  min-height: 85vh;
+}
+
+.admin-layout .left {
+  width: 300px;
+  background: rgba(0, 0, 0, 0.87);
+  height: 100vh;
+  position: fixed;
+  color: white;
+  font-size: 1rem;
+}
+
+.admin-layout .right {
+  margin-left: 300px;
+}

@@ -1,6 +1,15 @@
 import React, { useState } from 'react';
-import { Col, Form, Row, Button, FloatingLabel } from 'react-bootstrap';
-import { useSelector } from 'react-redux';
+import {
+  Col,
+  Form,
+  Row,
+  Button,
+  FloatingLabel,
+  Spinner,
+  Alert,
+} from 'react-bootstrap';
+import { useSelector, useDispatch } from 'react-redux';
+import { addNewCat } from '../../pages/category/categoryAction';
 
 const initialState = {
   name: '',
@@ -8,8 +17,11 @@ const initialState = {
 };
 
 export const AddCategoryForm = () => {
-  const { isPending, catList } = useSelector((state) => state.category);
-  const { newCat, setNewCat } = useState(initialState);
+  const dispatch = useDispatch();
+  const { isPending, catList, categoryResp } = useSelector(
+    (state) => state.category
+  );
+  const [newCat, setNewCat] = useState(initialState);
 
   const handleOnChange = (e) => {
     const { name, value } = e.target;
@@ -21,6 +33,7 @@ export const AddCategoryForm = () => {
 
   const handleOnSubmit = (e) => {
     e.preventDefault();
+    dispatch(addNewCat(newCat));
   };
 
   //filter parent category only
@@ -30,6 +43,15 @@ export const AddCategoryForm = () => {
   const childCat = catList.filter((row) => row.parentCat);
   return (
     <div>
+      {isPending && <Spinner variant="primary" animation="border" />}
+
+      {categoryResp.message && (
+        <Alert
+          variant={categoryResp.status === 'success' ? 'success' : 'danger'}
+        >
+          {categoryResp.message}{' '}
+        </Alert>
+      )}
       <Form onSubmit={handleOnSubmit}>
         <Row>
           <Col md={5} className="mt-2">
@@ -50,6 +72,7 @@ export const AddCategoryForm = () => {
               <Form.Select
                 onChange={handleOnChange}
                 aria-label="Floating label select example"
+                name="parentCat"
               >
                 <option>Select Parent Category</option>
                 {parentCatOnly.map((row, i) => (

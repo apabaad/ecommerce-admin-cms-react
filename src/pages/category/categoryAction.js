@@ -17,12 +17,13 @@ export const getCategories = () => async (dispatch) => {
   }
 };
 
-const addNewCat = (catObj) => async (dispatch) => {
+export const addNewCat = (catObj) => async (dispatch) => {
   dispatch(reqPending());
   const result = await addCategory(catObj);
 
   if (result.status === 'success') {
-    return dispatch(addCatSuccess(result));
+    dispatch(addCatSuccess(result));
+    return dispatch(getCategories());
   }
   dispatch(reqFail(result));
 };

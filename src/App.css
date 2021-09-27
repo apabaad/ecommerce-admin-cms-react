@@ -16,3 +16,7 @@
 .admin-layout .right {
   margin-left: 300px;
 }
+
+.navbar {
+  position: fixed;
+}

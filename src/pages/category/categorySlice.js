@@ -41,6 +41,10 @@ const catSlice = createSlice({
       //   state.catList = payload;
       state.categoryResp = payload;
     },
+    updateCatSuccess: (state, { payload }) => {
+      state.isPending = false;
+      state.categoryResp = payload;
+    },
   },
 });
 
@@ -53,6 +57,7 @@ export const {
   deleteCatSuccess,
   onCategorySelect,
   onDeSelectCategory,
+  updateCatSuccess,
 } = actions;
 
 export default reducer;

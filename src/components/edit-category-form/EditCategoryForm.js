@@ -9,7 +9,7 @@ import {
   Alert,
 } from 'react-bootstrap';
 import { useSelector, useDispatch } from 'react-redux';
-import { addNewCat } from '../../pages/category/categoryAction';
+import { categoryUpdate } from '../../pages/category/categoryAction';
 import CustomModal from '../custom-modal/CustomModal';
 import { onDeSelectCategory } from '../../pages/category/categorySlice';
 
@@ -39,7 +39,12 @@ export const EditCategoryForm = () => {
 
   const handleOnSubmit = (e) => {
     e.preventDefault();
-    // dispatch(addNewCat(newCat));
+    const { _id, name, parentCat } = updateCat;
+    if (name !== selectedCat.name || parentCat !== selectedCat.parentCat) {
+      dispatch(categoryUpdate({ _id, name, parentCat }));
+      return;
+    }
+    alert('Nothing has changed');
   };
 
   //filter parent category only

@@ -45,3 +45,16 @@ export const deleteCategory = async (catId) => {
     };
   }
 };
+
+export const updateCategory = async (catObj) => {
+  try {
+    const { data } = await axios.patch(catAPI, catObj);
+    return data;
+  } catch (error) {
+    console.log(error);
+    return {
+      status: 'error',
+      message: error.message,
+    };
+  }
+};

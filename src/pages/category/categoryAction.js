@@ -4,11 +4,13 @@ import {
   fetchCategoriesSuccess,
   addCatSuccess,
   deleteCatSuccess,
+  updateCatSuccess,
 } from './categorySlice';
 import {
   addCategory,
   fetchCategory,
   deleteCategory,
+  updateCategory,
 } from '../../apis/categoryApi';
 
 // get categories
@@ -44,6 +46,19 @@ export const deleteCat = (catId) => async (dispatch) => {
 
   if (result.status === 'success') {
     dispatch(deleteCatSuccess(result));
+    return dispatch(getCategories());
+  }
+  dispatch(reqFail(result));
+};
+
+// update category
+
+export const categoryUpdate = (catObj) => async (dispatch) => {
+  dispatch(reqPending());
+  const result = await updateCategory(catObj);
+
+  if (result.status === 'success') {
+    dispatch(updateCatSuccess(result));
     return dispatch(getCategories());
   }
   dispatch(reqFail(result));

@@ -40,7 +40,8 @@ export const AddCategoryForm = () => {
   const parentCatOnly = catList.filter((row) => !row.parentCat);
 
   //filter child category only
-  const childCat = catList.filter((row) => row.parentCat);
+  // const childCat = catList.filter((row) => row.parentCat);
+
   return (
     <div>
       {isPending && <Spinner variant="primary" animation="border" />}
@@ -74,7 +75,7 @@ export const AddCategoryForm = () => {
                 aria-label="Floating label select example"
                 name="parentCat"
               >
-                <option>Select Parent Category</option>
+                <option value="">Select Parent Category</option>
                 {parentCatOnly.map((row, i) => (
                   <option key={row._id} value={row._id}>
                     {row.name}{' '}

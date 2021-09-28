@@ -33,3 +33,15 @@ export const addCategory = async (catObj) => {
     };
   }
 };
+export const deleteCategory = async (catId) => {
+  try {
+    const { data } = await axios.delete(`${catAPI}/${catId}`);
+    return data;
+  } catch (error) {
+    console.log(error);
+    return {
+      status: 'error',
+      message: error.message,
+    };
+  }
+};

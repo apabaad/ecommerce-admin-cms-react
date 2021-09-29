@@ -1,17 +1,24 @@
-import { Button } from 'react-bootstrap';
 import React from 'react';
-import { Card, Col, Form, Row } from 'react-bootstrap';
-import { useHistory } from 'react-router';
+import { useDispatch } from 'react-redux';
+import { Card, Col, Form, Row, Button } from 'react-bootstrap';
+import { useHistory, useLocation } from 'react-router-dom';
+import { adminLogin } from '../../pages/admin-user/userAction';
 
 export const LoginForm = () => {
+  const dispatch = useDispatch();
   const history = useHistory();
+  const location = useLocation();
+
+  const from = location?.state?.from?.pathname || 'dashboard';
 
   const handleOnChange = (e) => {};
 
   const handleOnSubmit = (e) => {
     e.preventDefault();
-    history.push('/dashboard');
+    dispatch(adminLogin());
+    history.replace(from);
   };
+
   return (
     <div>
       <Card className="p-5 mt-4">

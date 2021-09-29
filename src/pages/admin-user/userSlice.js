@@ -4,6 +4,7 @@ const initialState = {
   isPending: false,
   regResp: {},
   emailVerificationResp: {},
+  isLoggedIn: false,
 };
 
 const userSlice = createSlice({
@@ -25,6 +26,9 @@ const userSlice = createSlice({
       state.isPending = false;
       state.emailVerificationResp = payload;
     },
+    loginSuccess: (state) => {
+      state.isLoggedIn = true;
+    },
   },
 });
 const { reducer, actions } = userSlice;
@@ -34,5 +38,6 @@ export const {
   registrationSuccess,
   emailVerificationSuccess,
   resFail,
+  loginSuccess,
 } = actions;
 export default reducer;

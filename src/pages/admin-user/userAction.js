@@ -3,6 +3,7 @@ import {
   registrationSuccess,
   resFail,
   emailVerificationSuccess,
+  loginSuccess,
 } from './userSlice';
 import { createNewUser, verifyNewUserEmail } from '../../apis/userApi.js';
 import EmailVerification from '../email-verification/EmailVerification';
@@ -24,4 +25,8 @@ export const verifyUserEmail = (userInfo) => async (dispatch) => {
   //   call api
   const result = await verifyNewUserEmail(userInfo);
   dispatch(emailVerificationSuccess(result));
+};
+
+export const adminLogin = () => (dispatch) => {
+  dispatch(loginSuccess());
 };

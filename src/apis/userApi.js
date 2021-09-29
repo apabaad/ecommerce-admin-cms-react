@@ -37,3 +37,16 @@ export const verifyNewUserEmail = async (userInfo) => {
     };
   }
 };
+
+export const loginAdmin = async (userInfo) => {
+  try {
+    const { data } = await axios.post(userAPI + '/login', userInfo);
+    return data;
+  } catch (error) {
+    console.log(error);
+    return {
+      status: 'error',
+      message: error.message,
+    };
+  }
+};

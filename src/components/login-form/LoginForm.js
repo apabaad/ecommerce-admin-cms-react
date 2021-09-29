@@ -1,6 +1,6 @@
-import React from 'react';
-import { useDispatch } from 'react-redux';
-import { Card, Col, Form, Row, Button } from 'react-bootstrap';
+import React, { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { Card, Col, Form, Row, Button, Spinner, Alert } from 'react-bootstrap';
 import { useHistory, useLocation } from 'react-router-dom';
 import { adminLogin } from '../../pages/admin-user/userAction';
 
@@ -9,27 +9,49 @@ export const LoginForm = () => {
   const history = useHistory();
   const location = useLocation();
 
+  const initialState = {
+    email: 'ee3h@a.com',
+    password: 'password',
+  };
+
+  const { isPending, userResp, isLoggedIn } = useSelector(
+    (state) => state.user
+  );
+
+  const [loginInfo, setLoginInfo] = useState(initialState);
+
   const from = location?.state?.from?.pathname || 'dashboard';
 
-  const handleOnChange = (e) => {};
+  useEffect(() => {
+    isLoggedIn && history.replace(from);
+  }, [isLoggedIn, history, from]);
+
+  const handleOnChange = (e) => {
+    const { name, value } = e.target;
+    setLoginInfo({
+      ...loginInfo,
+      [name]: value,
+    });
+  };
 
   const handleOnSubmit = (e) => {
     e.preventDefault();
-    dispatch(adminLogin());
-    history.replace(from);
+    if (!loginInfo.email || !loginInfo.password) {
+      return alert('please input both email or password');
+    }
+    dispatch(adminLogin(loginInfo));
   };
 
   return (
     <div>
       <Card className="p-5 mt-4">
         <h1>Admin User Registration</h1>
-
-        {/* {isPending && <Spinner variant="primary" animation="border" />}
-				{userResp?.message && (
-					<Alert variant={userResp.status === "success" ? "success" : "danger"}>
-						{userResp.message}
-					</Alert>
-				)} */}
+        {isPending && <Spinner variant="primary" animation="border" />}
+        {userResp?.message && (
+          <Alert variant={userResp.status === 'success' ? 'success' : 'danger'}>
+            {userResp.message}
+          </Alert>
+        )}{' '}
         <hr />
         <Form onSubmit={handleOnSubmit}>
           <Form.Group as={Row} className="mb-3 mt-3">
@@ -42,6 +64,7 @@ export const LoginForm = () => {
                 name="email"
                 placeholder="your@email.com"
                 required
+                value={loginInfo.email}
                 onChange={handleOnChange}
               />
             </Col>
@@ -58,6 +81,7 @@ export const LoginForm = () => {
                 placeholder="Password"
                 required
                 minLength="6"
+                value={loginInfo.password}
                 onChange={handleOnChange}
               />
             </Col>

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Card, Col, Form, Row, Button, Spinner, Alert } from 'react-bootstrap';
 import { useHistory, useLocation } from 'react-router-dom';
-import { adminLogin } from '../../pages/admin-user/userAction';
+import { adminLogin, autoLoginAction } from '../../pages/admin-user/userAction';
 
 export const LoginForm = () => {
   const dispatch = useDispatch();
@@ -23,6 +23,7 @@ export const LoginForm = () => {
   const from = location?.state?.from?.pathname || 'dashboard';
 
   useEffect(() => {
+    !isLoggedIn && dispatch(autoLoginAction());
     isLoggedIn && history.replace(from);
   }, [isLoggedIn, history, from]);
 

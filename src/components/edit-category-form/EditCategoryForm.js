@@ -48,7 +48,7 @@ export const EditCategoryForm = () => {
   };
 
   //filter parent category only
-  const parentCatOnly = catList.filter((row) => !row.parentCat);
+  const parentCatOnly = catList?.filter((row) => !row.parentCat);
 
   //filter child category only
   // const childCat = catList.filter((row) => row.parentCat);
@@ -61,7 +61,7 @@ export const EditCategoryForm = () => {
       <div>
         {isPending && <Spinner variant="primary" animation="border" />}
 
-        {categoryResp.message && (
+        {categoryResp?.message && (
           <Alert
             variant={categoryResp.status === 'success' ? 'success' : 'danger'}
           >
@@ -92,7 +92,7 @@ export const EditCategoryForm = () => {
                   name="parentCat"
                 >
                   <option value="">Select Parent Category</option>
-                  {parentCatOnly.map((row, i) => (
+                  {parentCatOnly?.map((row, i) => (
                     <option
                       key={row._id}
                       value={row._id}

@@ -10,14 +10,14 @@ const CategoryList = () => {
   const { isPending, catList } = useSelector((state) => state.category);
 
   //filter parent category only
-  const parentCatOnly = catList.filter((row) => !row.parentCat);
+  const parentCatOnly = catList?.filter((row) => !row.parentCat);
 
   //filter child category only
-  const childCat = catList.filter((row) => row.parentCat);
+  const childCat = catList?.filter((row) => row.parentCat);
 
   const handleOnDelete = (catId) => {
     // make sure that parent cat doesnt have child before deleting
-    const hasChildCat = childCat.some((item) => item.parentCat === catId);
+    const hasChildCat = childCat?.some((item) => item.parentCat === catId);
     if (hasChildCat) {
       return alert(
         'This category has some child categories. Remove them or reassign to another category before deleting.'

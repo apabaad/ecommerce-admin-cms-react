@@ -37,7 +37,7 @@ export const AddCategoryForm = () => {
   };
 
   //filter parent category only
-  const parentCatOnly = catList.filter((row) => !row.parentCat);
+  const parentCatOnly = catList?.filter((row) => !row.parentCat);
 
   //filter child category only
   // const childCat = catList.filter((row) => row.parentCat);
@@ -76,7 +76,7 @@ export const AddCategoryForm = () => {
                 name="parentCat"
               >
                 <option value="">Select Parent Category</option>
-                {parentCatOnly.map((row, i) => (
+                {parentCatOnly?.map((row, i) => (
                   <option key={row._id} value={row._id}>
                     {row.name}{' '}
                   </option>

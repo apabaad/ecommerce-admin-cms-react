@@ -43,6 +43,10 @@ export const LoginForm = () => {
     dispatch(adminLogin(loginInfo));
   };
 
+  // if(hideForm){
+  //   // return <Spinner variant="primary"></Spinner>
+  // }
+
   return (
     <div>
       <Card className="p-5 mt-4">

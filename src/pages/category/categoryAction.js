@@ -21,8 +21,9 @@ export const getCategories = () => async (dispatch) => {
   console.log(result);
 
   if (result?.status === 'success') {
-    return dispatch(fetchCategoriesSuccess(result.categories));
+    return dispatch(fetchCategoriesSuccess(result));
   }
+  dispatch(reqFail(result));
 };
 
 // add category

@@ -9,7 +9,11 @@ const catAPI = rootUrl + '/api/v1/category';
 
 export const fetchCategory = async () => {
   try {
-    const { data } = await axios.get(catAPI);
+    const { data } = await axios.get(catAPI, {
+      headers: {
+        Authorization: window.sessionStorage.getItem('accessJWT'),
+      },
+    });
 
     return data;
   } catch (error) {
@@ -23,7 +27,11 @@ export const fetchCategory = async () => {
 
 export const addCategory = async (catObj) => {
   try {
-    const { data } = await axios.post(catAPI, catObj);
+    const { data } = await axios.post(catAPI, catObj, {
+      headers: {
+        Authorization: window.sessionStorage.getItem('accessJWT'),
+      },
+    });
     return data;
   } catch (error) {
     console.log(error);
@@ -35,7 +43,11 @@ export const addCategory = async (catObj) => {
 };
 export const deleteCategory = async (catId) => {
   try {
-    const { data } = await axios.delete(`${catAPI}/${catId}`);
+    const { data } = await axios.delete(`${catAPI}/${catId}`, {
+      headers: {
+        Authorization: window.sessionStorage.getItem('accessJWT'),
+      },
+    });
     return data;
   } catch (error) {
     console.log(error);
@@ -48,7 +60,11 @@ export const deleteCategory = async (catId) => {
 
 export const updateCategory = async (catObj) => {
   try {
-    const { data } = await axios.patch(catAPI, catObj);
+    const { data } = await axios.patch(catAPI, catObj, {
+      headers: {
+        Authorization: window.sessionStorage.getItem('accessJWT'),
+      },
+    });
     return data;
   } catch (error) {
     console.log(error);

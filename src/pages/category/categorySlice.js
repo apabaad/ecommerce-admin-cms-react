@@ -15,9 +15,11 @@ const catSlice = createSlice({
       state.isPending = true;
     },
 
-    fetchCategoriesSuccess: (state, { payload = [] }) => {
+    fetchCategoriesSuccess: (state, { payload }) => {
       state.isPending = false;
-      state.catList = payload;
+      state.catList = payload.categories;
+      state.categoryResp.status = payload.status;
+      state.categoryResp.message = payload.message;
     },
     reqFail: (state, { payload }) => {
       state.isPending = false;

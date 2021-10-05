@@ -13,6 +13,9 @@ export const Header = () => {
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="ms-auto">
+              <Nav.Link href="/admin-profile">
+                <i className="fa-solid fa-user-tie"></i>
+              </Nav.Link>
               <Nav.Link
                 href="#"
                 onClick={() => {

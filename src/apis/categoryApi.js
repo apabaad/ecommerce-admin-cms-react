@@ -31,10 +31,7 @@ export const addCategory = async (catObj) => {
     return data;
   } catch (error) {
     console.log(error);
-    return {
-      status: 'error',
-      message: error.message,
-    };
+    return error.response.data;
   }
 };
 export const deleteCategory = async (catId) => {
@@ -47,10 +44,7 @@ export const deleteCategory = async (catId) => {
     return data;
   } catch (error) {
     console.log(error);
-    return {
-      status: 'error',
-      message: error.message,
-    };
+    return error.response.data;
   }
 };
 
@@ -64,9 +58,6 @@ export const updateCategory = async (catObj) => {
     return data;
   } catch (error) {
     console.log(error);
-    return {
-      status: 'error',
-      message: error.message,
-    };
+    return error.response.data;
   }
 };

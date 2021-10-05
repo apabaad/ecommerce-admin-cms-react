@@ -19,7 +19,7 @@ export const newAccessJWT = async () => {
     });
 
     // set new token in the session
-    data && window.sessionStorage.setItem('accessJWT, data.accessJWT');
+    data && window.sessionStorage.setItem('accessJWT', data.accessJWT);
 
     return window.sessionStorage.getItem('accessJWT');
   } catch (error) {

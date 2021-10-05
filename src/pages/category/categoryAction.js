@@ -14,7 +14,6 @@ import {
 } from '../../apis/categoryApi';
 
 import { newAccessJWT } from '../../apis/tokenApi';
-
 import { userLogOut } from '../admin-user/userAction';
 // get categories
 export const getCategories = () => async (dispatch) => {
@@ -23,6 +22,7 @@ export const getCategories = () => async (dispatch) => {
   const result = await fetchCategory();
   console.log(result);
 
+  //=== reauthorization by getting new token
   if (result.message === 'jwt expired') {
     const token = await newAccessJWT();
 
@@ -32,6 +32,7 @@ export const getCategories = () => async (dispatch) => {
       dispatch(userLogOut());
     }
   }
+  //====== re auth
 
   if (result?.status === 'success') {
     return dispatch(fetchCategoriesSuccess(result));
@@ -44,6 +45,17 @@ export const getCategories = () => async (dispatch) => {
 export const addNewCat = (catObj) => async (dispatch) => {
   dispatch(reqPending());
   const result = await addCategory(catObj);
+  //=== re auth
+  if (result.message === 'jwt expired') {
+    const token = await newAccessJWT();
+
+    if (token) {
+      dispatch(addNewCat(catObj));
+    } else {
+      dispatch(userLogOut());
+    }
+  }
+  //====== re auth
 
   if (result.status === 'success') {
     dispatch(addCatSuccess(result));
@@ -57,6 +69,17 @@ export const addNewCat = (catObj) => async (dispatch) => {
 export const deleteCat = (catId) => async (dispatch) => {
   dispatch(reqPending());
   const result = await deleteCategory(catId);
+  //=== re auth
+  if (result.message === 'jwt expired') {
+    const token = await newAccessJWT();
+
+    if (token) {
+      dispatch(getCategories());
+    } else {
+      dispatch(userLogOut());
+    }
+  }
+  //====== re auth
 
   if (result.status === 'success') {
     dispatch(deleteCatSuccess(result));
@@ -70,6 +93,17 @@ export const deleteCat = (catId) => async (dispatch) => {
 export const categoryUpdate = (catObj) => async (dispatch) => {
   dispatch(reqPending());
   const result = await updateCategory(catObj);
+  //reauthorization after getting new access token
+  if (result.message === 'jwt expired') {
+    const token = await newAccessJWT();
+
+    if (token) {
+      dispatch(getCategories());
+    } else {
+      dispatch(userLogOut());
+    }
+  }
+  //====== re auth
 
   if (result.status === 'success') {
     dispatch(updateCatSuccess(result));

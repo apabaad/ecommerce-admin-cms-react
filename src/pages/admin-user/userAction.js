@@ -42,8 +42,8 @@ export const adminLogin = (loginInfo) => async (dispatch) => {
   const result = await loginAdmin(loginInfo);
   console.log(result, 'new');
   if (result.status === 'success') {
-    window.sessionStorage.setItem('accessJWT', result.tokens?.accessJWT); //for 15mins
-    window.localStorage.setItem('refreshJWT', result.tokens?.refreshJWT); //to request new token from browser if it expires
+    window.sessionStorage.setItem('accessJWT', result.tokens?.accessJWT); //will have to request again server after 15mins
+    window.localStorage.setItem('refreshJWT', result.tokens?.refreshJWT); //expires in 30days or when logout
     return dispatch(loginSuccess(result.user));
   }
   dispatch(resFail(result));

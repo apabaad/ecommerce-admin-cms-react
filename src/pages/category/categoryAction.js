@@ -13,12 +13,25 @@ import {
   updateCategory,
 } from '../../apis/categoryApi';
 
+import { newAccessJWT } from '../../apis/tokenApi';
+
+import { userLogOut } from '../admin-user/userAction';
 // get categories
 export const getCategories = () => async (dispatch) => {
   dispatch(reqPending());
   // call api
   const result = await fetchCategory();
   console.log(result);
+
+  if (result.message === 'jwt expired') {
+    const token = await newAccessJWT();
+
+    if (token) {
+      dispatch(getCategories());
+    } else {
+      dispatch(userLogOut());
+    }
+  }
 
   if (result?.status === 'success') {
     return dispatch(fetchCategoriesSuccess(result));

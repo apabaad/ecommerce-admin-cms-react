@@ -5,6 +5,7 @@ const initialState = {
   regResp: {},
   emailVerificationResp: {},
   isLoggedIn: false,
+  user: {},
 };
 
 const userSlice = createSlice({

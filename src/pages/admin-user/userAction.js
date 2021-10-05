@@ -70,6 +70,7 @@ export const autoLoginAction = () => async (dispatch) => {
   }
 
   //3. logout user by calling logout fun
+  dispatch(logOutUserSuccess());
 };
 
 export const userLogOut = () => (dispatch) => {

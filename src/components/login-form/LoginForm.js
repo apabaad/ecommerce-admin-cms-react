@@ -25,7 +25,7 @@ export const LoginForm = () => {
   useEffect(() => {
     !isLoggedIn && dispatch(autoLoginAction());
     isLoggedIn && history.replace(from);
-  }, [isLoggedIn, history, from]);
+  }, [isLoggedIn, history, from, dispatch]);
 
   const handleOnChange = (e) => {
     const { name, value } = e.target;

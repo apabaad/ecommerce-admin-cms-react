@@ -6,11 +6,13 @@ import {
   loginSuccess,
   autoLogin,
   logOutUserSuccess,
+  getAdminProfile,
 } from './userSlice';
 import {
   createNewUser,
   loginAdmin,
   verifyNewUserEmail,
+  fetchUserProfile,
 } from '../../apis/userApi.js';
 import EmailVerification from '../email-verification/EmailVerification';
 
@@ -63,8 +65,8 @@ export const autoLoginAction = () => async (dispatch) => {
     const data = await newAccessJWT();
     console.log(data);
 
-    if (data?.accessJWT) {
-      window.sessionStorage.setItem('accessJWT', data.accessJWT);
+    if (data) {
+      // window.sessionStorage.setItem('accessJWT', data.accessJWT);
       return dispatch(autoLogin());
     }
   }
@@ -78,4 +80,24 @@ export const userLogOut = () => (dispatch) => {
   window.localStorage.removeItem('refreshJWT');
 
   dispatch(logOutUserSuccess());
+};
+
+export const getUserProfile = () => async (dispatch) => {
+  //call user api
+  dispatch(resPending());
+
+  const result = await fetchUserProfile();
+  if (result.message === 'jwt expired') {
+    const token = await newAccessJWT();
+    if (token) {
+      dispatch(getUserProfile());
+    } else {
+      dispatch(userLogOut());
+    }
+  }
+  if (result.status === 'success') {
+    return dispatch(getAdminProfile(result.user));
+  } else {
+    dispatch(resFail(result));
+  }
 };

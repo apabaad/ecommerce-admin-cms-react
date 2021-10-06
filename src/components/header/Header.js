@@ -2,6 +2,7 @@ import React from 'react';
 import { Navbar, Container, Nav } from 'react-bootstrap';
 import { useDispatch } from 'react-redux';
 import { userLogOut } from '../../pages/admin-user/userAction';
+import { Link } from 'react-router-dom';
 
 export const Header = () => {
   const dispatch = useDispatch();
@@ -13,9 +14,9 @@ export const Header = () => {
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="ms-auto">
-              <Nav.Link href="/admin-profile">
-                <i className="fa-solid fa-user-tie"></i>
-              </Nav.Link>
+              <Link to="/admin-profile" className="nav-link">
+                <i className="fas fa-user-tie"></i>
+              </Link>
               <Nav.Link
                 href="#"
                 onClick={() => {

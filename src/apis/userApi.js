@@ -50,3 +50,20 @@ export const loginAdmin = async (userInfo) => {
     };
   }
 };
+
+export const fetchUserProfile = async () => {
+  try {
+    const { data } = await axios.get(userAPI, {
+      headers: {
+        Authorization: window.sessionStorage.getItem('accessJWT'),
+      },
+    });
+    return data;
+  } catch (error) {
+    console.log(error);
+    return {
+      status: 'error',
+      message: error.message,
+    };
+  }
+};

@@ -40,6 +40,9 @@ const userSlice = createSlice({
       state.isLoggedIn = false;
       state.user = {};
     },
+    getAdminProfile: (state, { payload = [] }) => {
+      state.user = payload;
+    },
   },
 });
 const { reducer, actions } = userSlice;
@@ -52,5 +55,6 @@ export const {
   loginSuccess,
   autoLogin,
   logOutUserSuccess,
+  getAdminProfile,
 } = actions;
 export default reducer;

@@ -4,8 +4,9 @@ import {
   getSingleProduct,
   resFail,
   deleteProductSuccess,
+  addProductSuccess,
 } from './productSlice';
-import { fetchProduct, deleteProduct } from '../../apis/productApi';
+import { fetchProduct, deleteProduct, addProduct } from '../../apis/productApi';
 import { newAccessJWT } from '../../apis/tokenApi';
 import { userLogOut } from '../admin-user/userAction';
 
@@ -55,6 +56,30 @@ export const deleteProductsAction = (_id) => async (dispatch) => {
   //=== re auth
   if (data.status === 'success') {
     dispatch(deleteProductSuccess());
+    return dispatch(getProductsAction());
+  }
+
+  dispatch(resFail(data));
+};
+
+export const AddProductsAction = (prodInfo) => async (dispatch) => {
+  dispatch(resPending());
+
+  const data = await addProduct(prodInfo);
+
+  //=== re auth
+  if (data.message === 'jwt expired') {
+    const token = await newAccessJWT();
+
+    if (token) {
+      dispatch(AddProductsAction());
+    } else {
+      dispatch(userLogOut());
+    }
+  }
+  //=== re auth
+  if (data.status === 'success') {
+    dispatch(addProductSuccess());
     return dispatch(getProductsAction());
   }
 

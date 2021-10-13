@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
 import { Card, Col, Form, Row, Button, Spinner, Alert } from 'react-bootstrap';
+import { useSelector, useDispatch } from 'react-redux';
 import GlobalForm from '../form-group/FromGroup';
+import { AddProductsAction } from '../../pages/product/productAction';
 
 const initialState = {
-  status: true,
+  status: false,
   title: 'samg tv',
   price: 500,
   qty: 50,
@@ -68,14 +70,56 @@ const inputFields = [
   },
 ];
 const AddProductForm = () => {
+  const dispatch = useDispatch();
+  const { isPending, productResp } = useSelector((state) => state.product);
   const [product, setProduct] = useState(initialState);
+
+  const handleOnSubmit = (e) => {
+    e.preventDefault();
+    console.log(product);
+    dispatch(AddProductsAction(product));
+  };
+
+  const handleOnChange = (e) => {
+    const { checked, name, value } = e.target;
+    console.log(checked, name, value);
+
+    // to change state of toggle button
+    if (name === 'status') {
+      return setProduct({
+        ...product,
+        status: checked,
+      });
+    }
+
+    // to change the whole form state
+    setProduct({
+      ...product,
+      [name]: value,
+    });
+  };
   return (
-    <div>
-      <Form>
-        <Form.Check type="switch" id="custom-switch" label="Status" required />
+    <div className="px-3">
+      {isPending && <Spinner variant="info" animation="border" />}
+      {productResp?.message && (
+        <Alert
+          variant={productResp.status === 'success' ? 'success' : 'danger'}
+        >
+          {productResp.message}
+        </Alert>
+      )}
+      <Form onSubmit={handleOnSubmit}>
+        <Form.Check
+          type="switch"
+          id="custom-switch"
+          label="Status"
+          name="status"
+          required
+          onChange={handleOnChange}
+        />
 
         {inputFields.map((row, i) => {
-          return <GlobalForm {...row} />;
+          return <GlobalForm {...row} onChange={handleOnChange} />;
         })}
         <Button variant="success" type="submit">
           Add new product

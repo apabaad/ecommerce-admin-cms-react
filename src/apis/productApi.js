@@ -32,3 +32,15 @@ export const deleteProduct = async (_id) => {
     return error?.response?.data || { status: 'error', message: error.message };
   }
 };
+export const addProduct = async (prodInfo) => {
+  try {
+    const { data } = await axios.post(productAPI, prodInfo, {
+      headers: {
+        Authorization: window.localStorage.getItem('refreshJWT'),
+      },
+    });
+    return data;
+  } catch (error) {
+    return error?.response?.data || { status: 'error', message: error.message };
+  }
+};

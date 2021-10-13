@@ -19,3 +19,16 @@ export const fetchProduct = async (slug) => {
     return error?.response?.data || { status: 'error', message: error.message };
   }
 };
+
+export const deleteProduct = async (_id) => {
+  try {
+    const { data } = await axios.delete(productAPI + '/' + _id, {
+      headers: {
+        Authorization: window.localStorage.getItem('refreshJWT'),
+      },
+    });
+    return data;
+  } catch (error) {
+    return error?.response?.data || { status: 'error', message: error.message };
+  }
+};

@@ -22,6 +22,10 @@ const productSlice = createSlice({
       state.isPending = false;
       state.selectedProduct = payload;
     },
+    deleteProductSuccess: (state, { payload = {} }) => {
+      state.isPending = false;
+      state.productResp = payload;
+    },
     resFail: (state, { payload }) => {
       state.isPending = false;
       state.productResp = payload;
@@ -31,5 +35,11 @@ const productSlice = createSlice({
 
 const { reducer, actions } = productSlice;
 
-export const { resPending, getProducts, getSingleProduct, resFail } = actions;
+export const {
+  resPending,
+  getProducts,
+  getSingleProduct,
+  resFail,
+  deleteProductSuccess,
+} = actions;
 export default reducer;

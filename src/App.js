@@ -9,6 +9,7 @@ import Category from './pages/category/Category';
 import Payment from './pages/payment/Payment';
 import Customer from './pages/customer/Customer';
 import Product from './pages/product/Product';
+import AddProduct from './pages/product/AddProduct';
 import Order from './pages/order/Order';
 import PrivateRoute from './components/private-route/PrivateRoute';
 import AdminProfile from './pages/admin-profile/AdminProfile';
@@ -36,6 +37,9 @@ function App() {
 
           <PrivateRoute path="/products">
             <Product />
+          </PrivateRoute>
+          <PrivateRoute path="/product/new">
+            <AddProduct />
           </PrivateRoute>
 
           <PrivateRoute path="/payments">

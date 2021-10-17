@@ -3,6 +3,7 @@ import { Card, Col, Form, Row, Button, Spinner, Alert } from 'react-bootstrap';
 import { useSelector, useDispatch } from 'react-redux';
 import GlobalForm from '../form-group/FromGroup';
 import { AddProductsAction } from '../../pages/product/productAction';
+import ProductCatList from '../category-list/ProductCatList';
 
 const initialState = {
   status: false,
@@ -73,6 +74,7 @@ const AddProductForm = () => {
   const dispatch = useDispatch();
   const { isPending, productResp } = useSelector((state) => state.product);
   const [product, setProduct] = useState(initialState);
+  const [prodCategory, setProdCategory] = useState([]);
 
   const handleOnSubmit = (e) => {
     e.preventDefault();
@@ -98,6 +100,17 @@ const AddProductForm = () => {
       [name]: value,
     });
   };
+
+  const handleOnCatSelect = (e) => {
+    const { checked, value } = e.target;
+    console.log(checked, value);
+    if (checked) {
+      setProdCategory([...prodCategory, value]);
+    } else {
+      const arg = prodCategory.filter((id) => id !== value);
+      setProdCategory(arg);
+    }
+  };
   return (
     <div className="px-3">
       {isPending && <Spinner variant="info" animation="border" />}
@@ -121,6 +134,18 @@ const AddProductForm = () => {
         {inputFields.map((row, i) => {
           return <GlobalForm {...row} onChange={handleOnChange} />;
         })}
+
+        <Form.Group as={Row} className="mb-3">
+          <Form.Label column sm="3">
+            Categories
+          </Form.Label>
+          <Col sm="9">
+            <ProductCatList
+              handleOnCatSelect={handleOnCatSelect}
+              prodCategory={prodCategory}
+            />
+          </Col>
+        </Form.Group>
         <Button variant="success" type="submit">
           Add new product
         </Button>

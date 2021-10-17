@@ -134,21 +134,23 @@ const EditProductForm = () => {
         </Alert>
       )}
       <Form onSubmit={handleOnSubmit}>
-        <Form.Check
-          type="switch"
-          id="custom-switch"
-          label="Status"
-          name="status"
-          required
-          checked={updateProduct.status}
-          onChange={handleOnChange}
-        />
+        <Form.Group as={Row} className="mb-3">
+          <Form.Check
+            type="switch"
+            id="custom-switch"
+            label="Status"
+            name="status"
+            required
+            checked={updateProduct.status}
+            onChange={handleOnChange}
+          />
+        </Form.Group>
 
         {inputFields.map((row, i) => {
           return <GlobalForm {...row} onChange={handleOnChange} />;
         })}
         <Button variant="success" type="submit">
-          Add new product
+          Update product
         </Button>
       </Form>
     </div>

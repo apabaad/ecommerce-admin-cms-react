@@ -37,6 +37,33 @@ export const getProductsAction = () => async (dispatch) => {
   //   ? data.result.length && dispatch(getProducts(data.result))
   //   : dispatch(resFail(data));
 };
+export const getSingleProductAction = (slug) => async (dispatch) => {
+  dispatch(resPending());
+
+  const data = await fetchProduct(slug);
+
+  //=== re auth
+  if (data.message === 'jwt expired') {
+    const token = await newAccessJWT();
+
+    if (token) {
+      dispatch(getSingleProductAction(slug));
+    } else {
+      dispatch(userLogOut());
+    }
+  }
+  //=== re auth
+  if (data.status === 'success') {
+    return dispatch(getSingleProduct(data.result));
+  }
+
+  dispatch(resFail(data));
+
+  //   OR with ternery operator
+  // data.status === 'success'
+  //   ? data.result.length && dispatch(getProducts(data.result))
+  //   : dispatch(resFail(data));
+};
 
 export const deleteProductsAction = (_id) => async (dispatch) => {
   dispatch(resPending());

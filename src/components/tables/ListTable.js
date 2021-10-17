@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { Table, Button } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
 
 import {
   getProductsAction,
@@ -47,15 +48,16 @@ export const ListTable = () => {
                   <td>${row.price}</td>
                   <td>{row.qty}</td>
                   <td>
-                    <Button
-                      variant="info"
-                      onClick={() => {
-                        return handleOnEdit(row._id);
-                      }}
-                    >
-                      {' '}
-                      Edit
-                    </Button>
+                    <Link to={`/product/${row.slug}`}>
+                      <Button
+                        variant="info"
+                        onClick={() => {
+                          return handleOnEdit(row._id);
+                        }}
+                      >
+                        Edit
+                      </Button>
+                    </Link>
                     <span className="ml-3">
                       <Button
                         variant="danger"

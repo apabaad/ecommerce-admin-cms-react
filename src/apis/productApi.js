@@ -9,7 +9,7 @@ const productAPI = rootUrl + '/api/v1/product';
 export const fetchProduct = async (slug) => {
   try {
     const apiEndPoint = slug ? productAPI + '/' + slug : productAPI;
-    const { data } = await axios.get(productAPI, {
+    const { data } = await axios.get(apiEndPoint, {
       headers: {
         Authorization: window.localStorage.getItem('refreshJWT'),
       },

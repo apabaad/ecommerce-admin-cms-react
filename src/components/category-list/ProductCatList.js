@@ -22,6 +22,7 @@ const ProductCatList = ({ handleOnCatSelect, prodCategory }) => {
             <Form.Check
               name="category"
               label={row.name}
+              checked={prodCategory.includes(row._id)}
               onChange={handleOnCatSelect}
               defaultValue={row._id}
             />

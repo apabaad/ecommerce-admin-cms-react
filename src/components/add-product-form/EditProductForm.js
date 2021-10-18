@@ -3,6 +3,7 @@ import { Card, Col, Form, Row, Button, Spinner, Alert } from 'react-bootstrap';
 import { useSelector, useDispatch } from 'react-redux';
 import GlobalForm from '../form-group/FromGroup';
 import { useParams } from 'react-router-dom';
+import ProductCatList from '../category-list/ProductCatList';
 import {
   AddProductsAction,
   getSingleProductAction,
@@ -23,6 +24,7 @@ const initialState = {
 
 const EditProductForm = () => {
   const dispatch = useDispatch();
+  const [prodCategory, setProdCategory] = useState([]);
   const { isPending, productResp, selectedProduct } = useSelector(
     (state) => state.product
   );
@@ -35,6 +37,7 @@ const EditProductForm = () => {
     }
 
     setUpdateProduct(selectedProduct);
+    selectedProduct?.categories && setProdCategory(selectedProduct.categories);
   }, [dispatch, slug, selectedProduct]);
 
   const handleOnSubmit = (e) => {
@@ -58,6 +61,17 @@ const EditProductForm = () => {
       ...updateProduct,
       [name]: value,
     });
+  };
+
+  const handleOnCatSelect = (e) => {
+    const { checked, value } = e.target;
+    console.log(checked, value);
+    if (checked) {
+      setProdCategory([...prodCategory, value]);
+    } else {
+      const arg = prodCategory.filter((id) => id !== value);
+      setProdCategory(arg);
+    }
   };
   const inputFields = [
     {
@@ -149,6 +163,17 @@ const EditProductForm = () => {
         {inputFields.map((row, i) => {
           return <GlobalForm {...row} onChange={handleOnChange} />;
         })}
+        <Form.Group as={Row} className="mb-3">
+          <Form.Label column sm="2">
+            Categories
+          </Form.Label>
+          <Col sm="9">
+            <ProductCatList
+              handleOnCatSelect={handleOnCatSelect}
+              prodCategory={prodCategory}
+            />
+          </Col>
+        </Form.Group>
         <Button variant="success" type="submit">
           Update product
         </Button>

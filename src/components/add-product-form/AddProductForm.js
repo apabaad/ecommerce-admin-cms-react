@@ -79,7 +79,7 @@ const AddProductForm = () => {
   const handleOnSubmit = (e) => {
     e.preventDefault();
     console.log(product);
-    dispatch(AddProductsAction(product));
+    dispatch(AddProductsAction({ ...product, categories: prodCategory }));
   };
 
   const handleOnChange = (e) => {

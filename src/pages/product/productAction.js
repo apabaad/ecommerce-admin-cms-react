@@ -119,7 +119,7 @@ export const AddProductsAction = (prodInfo) => async (dispatch) => {
   dispatch(resFail(data));
 };
 
-export const UpdateProductsAction = (prodInfo) => async (dispatch) => {
+export const UpdateProductsAction = (slug, prodInfo) => async (dispatch) => {
   dispatch(resPending());
 
   const data = await UpdateProduct(prodInfo);
@@ -136,8 +136,8 @@ export const UpdateProductsAction = (prodInfo) => async (dispatch) => {
   }
   //=== re auth
   if (data.status === 'success') {
-    dispatch(updateProductSuccess());
-    return dispatch(getProductsAction());
+    dispatch(updateProductSuccess(data));
+    return dispatch(getSingleProductAction(slug));
   }
 
   dispatch(resFail(data));

@@ -69,22 +69,49 @@ const inputFields = [
     type: 'text',
     placeholder: 'Samsung',
   },
+  {
+    label: 'Select Images',
+    name: 'image',
+    type: 'file',
+    multiple: true,
+    accept: 'image/*',
+  },
 ];
 const AddProductForm = () => {
   const dispatch = useDispatch();
   const { isPending, productResp } = useSelector((state) => state.product);
   const [product, setProduct] = useState(initialState);
   const [prodCategory, setProdCategory] = useState([]);
+  const [images, setImages] = useState([]);
 
   const handleOnSubmit = (e) => {
     e.preventDefault();
-    console.log(product);
-    dispatch(AddProductsAction({ ...product, categories: prodCategory }));
+
+    // console.log(product);
+
+    const frmDt = new FormData(); //for multipart form i.e with images and input fields
+
+    //append all the form state
+    for (const key in product) {
+      frmDt.append(key, product.key);
+    }
+
+    //append categories
+    frmDt.append('categories', prodCategory);
+
+    // append images
+    images.length && [...images].map((row, i) => frmDt.append('images', row));
+
+    // dispatch(AddProductsAction({ ...product, categories: prodCategory }));
+    dispatch(AddProductsAction(frmDt));
   };
 
   const handleOnChange = (e) => {
-    const { checked, name, value } = e.target;
-    console.log(checked, name, value);
+    const { checked, name, value, files } = e.target;
+    // console.log(checked, name, value, files);
+    if (files) {
+      return setImages(files);
+    }
 
     // to change state of toggle button
     if (name === 'status') {
@@ -146,6 +173,8 @@ const AddProductForm = () => {
             />
           </Col>
         </Form.Group>
+
+        <Form.Group as={Row} className="mb-3"></Form.Group>
         <Button variant="success" type="submit">
           Add new product
         </Button>

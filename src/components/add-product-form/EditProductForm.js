@@ -44,7 +44,7 @@ const EditProductForm = () => {
     e.preventDefault();
     const { __v, slug, ...toUpdate } = updateProduct;
     toUpdate.categories = prodCategory;
-    dispatch(UpdateProductsAction(toUpdate));
+    dispatch(UpdateProductsAction(slug, toUpdate));
     window.scrollTo(0, 0);
   };
 
@@ -157,7 +157,6 @@ const EditProductForm = () => {
             id="custom-switch"
             label="Status"
             name="status"
-            required
             checked={updateProduct.status}
             onChange={handleOnChange}
           />

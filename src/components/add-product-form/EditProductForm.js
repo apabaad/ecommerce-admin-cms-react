@@ -5,7 +5,7 @@ import GlobalForm from '../form-group/FromGroup';
 import { useParams } from 'react-router-dom';
 import ProductCatList from '../category-list/ProductCatList';
 import {
-  AddProductsAction,
+  UpdateProductsAction,
   getSingleProductAction,
 } from '../../pages/product/productAction';
 
@@ -42,7 +42,10 @@ const EditProductForm = () => {
 
   const handleOnSubmit = (e) => {
     e.preventDefault();
-    // dispatch(AddProductsAction(updateProduct));
+    const { __v, slug, ...toUpdate } = updateProduct;
+    toUpdate.categories = prodCategory;
+    dispatch(UpdateProductsAction(toUpdate));
+    window.scrollTo(0, 0);
   };
 
   const handleOnChange = (e) => {

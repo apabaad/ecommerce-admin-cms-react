@@ -44,3 +44,15 @@ export const addProduct = async (prodInfo) => {
     return error?.response?.data || { status: 'error', message: error.message };
   }
 };
+export const UpdateProduct = async (prodInfo) => {
+  try {
+    const { data } = await axios.put(productAPI, prodInfo, {
+      headers: {
+        Authorization: window.localStorage.getItem('refreshJWT'),
+      },
+    });
+    return data;
+  } catch (error) {
+    return error?.response?.data || { status: 'error', message: error.message };
+  }
+};

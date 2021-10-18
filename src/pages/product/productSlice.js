@@ -30,6 +30,11 @@ const productSlice = createSlice({
       state.isPending = false;
       state.productResp = payload;
     },
+    updateProductSuccess: (state, { payload = {} }) => {
+      state.isPending = false;
+      state.productResp = payload;
+    },
+
     resFail: (state, { payload }) => {
       state.isPending = false;
       state.productResp = payload;
@@ -46,5 +51,6 @@ export const {
   resFail,
   deleteProductSuccess,
   addProductSuccess,
+  updateProductSuccess,
 } = actions;
 export default reducer;

@@ -47,7 +47,10 @@ const EditProductForm = () => {
     e.preventDefault();
     const { __v, slug, images, ...toUpdate } = updateProduct;
 
+    // const filterImageList = images?.filter(itm => !imgToDelete.includes(itm)) //getting images that shouldnt be deleted
+
     toUpdate.categories = prodCategory;
+
     toUpdate.imgToDelete = imgToDelete;
     toUpdate.oldImages = images;
 
@@ -56,13 +59,11 @@ const EditProductForm = () => {
     //append all the form state
     for (const key in toUpdate) {
       if (key === 'saleStartDate' || key === 'saleEndDate') {
-        frmDt.append(key, toUpdate[key] === 'null' ? '' : toUpdate[key]);
+        frmDt.append(key, toUpdate[key] ? toUpdate[key] : '');
         continue;
       }
       frmDt.append(key, toUpdate[key]);
     }
-
-    frmDt.append('oldImages', oldImages);
 
     // append images
     newImages.length &&
@@ -173,7 +174,6 @@ const EditProductForm = () => {
       type: 'file',
       multiple: true,
       accept: 'image/*',
-      required: true,
     },
   ];
 
@@ -223,6 +223,7 @@ const EditProductForm = () => {
                   label="Delete"
                   defaultValue={imgSrc}
                   onChange={handleOnImgDelete}
+                  checked={imgToDelete.includes(imgSrc)}
                 />
               </div>
             ))}

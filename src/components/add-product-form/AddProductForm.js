@@ -11,7 +11,6 @@ const initialState = {
   price: 500,
   qty: 50,
   description: 'Save your money',
-  categories: 'electoronics',
   salePrice: 0,
   saleStartDate: '',
   saleEndDate: '',
@@ -98,7 +97,7 @@ const AddProductForm = () => {
     }
 
     //append categories
-    frmDt.append('categories', prodCategory);
+    frmDt.append('categories', prodCategory); //.join() to change array to string. try in console
 
     // append images
     images.length && [...images].map((row, i) => frmDt.append('images', row));

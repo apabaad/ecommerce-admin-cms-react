@@ -75,6 +75,7 @@ const inputFields = [
     type: 'file',
     multiple: true,
     accept: 'image/*',
+    required: true,
   },
 ];
 const AddProductForm = () => {
@@ -93,7 +94,7 @@ const AddProductForm = () => {
 
     //append all the form state
     for (const key in product) {
-      frmDt.append(key, product.key);
+      frmDt.append(key, product[key]);
     }
 
     //append categories
@@ -154,7 +155,6 @@ const AddProductForm = () => {
           id="custom-switch"
           label="Status"
           name="status"
-          required
           onChange={handleOnChange}
         />
 

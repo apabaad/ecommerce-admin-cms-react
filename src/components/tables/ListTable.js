@@ -32,6 +32,7 @@ export const ListTable = () => {
             <th>#</th>
             <th>Status</th>
             <th>Title</th>
+            <th>Thumbnail</th>
             <th>Price</th>
             <th>Qty</th>
             <th>Actions</th>
@@ -43,8 +44,18 @@ export const ListTable = () => {
               return (
                 <tr key={row._id}>
                   <td>{i + 1}</td>
+
                   <td>{row.status === true ? 'Online' : 'Offline'}</td>
                   <td>{row.title}</td>
+                  <td>
+                    {row.images?.length && (
+                      <img
+                        src={row.images[0]}
+                        alt="product thumbnail"
+                        width="80px"
+                      />
+                    )}
+                  </td>
                   <td>${row.price}</td>
                   <td>{row.qty}</td>
                   <td>

@@ -25,6 +25,9 @@ const initialState = {
 const EditProductForm = () => {
   const dispatch = useDispatch();
   const [prodCategory, setProdCategory] = useState([]);
+  const [imgToDelete, setImgToDelete] = useState([]);
+  const [newImages, setNewImages] = useState([]);
+
   const { isPending, productResp, selectedProduct } = useSelector(
     (state) => state.product
   );
@@ -42,14 +45,39 @@ const EditProductForm = () => {
 
   const handleOnSubmit = (e) => {
     e.preventDefault();
-    const { __v, slug, ...toUpdate } = updateProduct;
+    const { __v, slug, images, ...toUpdate } = updateProduct;
+
     toUpdate.categories = prodCategory;
-    dispatch(UpdateProductsAction(slug, toUpdate));
+    toUpdate.imgToDelete = imgToDelete;
+    toUpdate.oldImages = images;
+
+    const frmDt = new FormData();
+
+    //append all the form state
+    for (const key in toUpdate) {
+      if (key === 'saleStartDate' || key === 'saleEndDate') {
+        frmDt.append(key, toUpdate[key] === 'null' ? '' : toUpdate[key]);
+        continue;
+      }
+      frmDt.append(key, toUpdate[key]);
+    }
+
+    frmDt.append('oldImages', oldImages);
+
+    // append images
+    newImages.length &&
+      [...newImages].map((img, i) => frmDt.append('images', img));
+
+    dispatch(UpdateProductsAction(slug, frmDt));
     window.scrollTo(0, 0);
   };
 
   const handleOnChange = (e) => {
-    const { checked, name, value } = e.target;
+    const { checked, name, value, files } = e.target;
+
+    if (files) {
+      return setNewImages(files);
+    }
 
     // to change state of toggle button
     if (name === 'status') {
@@ -139,7 +167,27 @@ const EditProductForm = () => {
       placeholder: 'Samsung',
       value: updateProduct.brand,
     },
+    {
+      label: 'Select Images',
+      name: 'image',
+      type: 'file',
+      multiple: true,
+      accept: 'image/*',
+      required: true,
+    },
   ];
+
+  const handleOnImgDelete = (e) => {
+    const { checked, value } = e.target;
+    if (checked) {
+      // store in the local state
+      setImgToDelete([...imgToDelete, value]);
+    } else {
+      //remove from the state array
+      const obj = setImgToDelete.filter((src) => src !== value);
+      setImgToDelete(obj);
+    }
+  };
   return (
     <div className="px-3">
       {isPending && <Spinner variant="info" animation="border" />}
@@ -165,6 +213,21 @@ const EditProductForm = () => {
         {inputFields.map((row, i) => {
           return <GlobalForm {...row} onChange={handleOnChange} />;
         })}
+
+        <Form.Group as={Row} className="mb-3">
+          <div className="d-flex flex-wrap just-content-between">
+            {updateProduct.images?.map((imgSrc, i) => (
+              <div className="d-flex flex-column m-2">
+                <img src={imgSrc} alt="product images" width="80px" key={i} />
+                <Form.Check
+                  label="Delete"
+                  defaultValue={imgSrc}
+                  onChange={handleOnImgDelete}
+                />
+              </div>
+            ))}
+          </div>
+        </Form.Group>
         <Form.Group as={Row} className="mb-3">
           <Form.Label column sm="2">
             Categories
